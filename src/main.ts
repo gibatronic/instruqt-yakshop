@@ -12,7 +12,7 @@ async function bootstrap() {
     const swaggerConfig = new DocumentBuilder().setTitle('YakShop').build()
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
 
-    SwaggerModule.setup('', app, swaggerDocument, {
+    SwaggerModule.setup('yak-shop', app, swaggerDocument, {
         customSiteTitle: 'YakShop',
     })
 
