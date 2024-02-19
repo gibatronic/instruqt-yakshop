@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from 'src/config/config.module'
-import { InventoryModule } from 'src/inventory/inventory.module'
+import { ConfigModule } from '../config/config.module'
+import { InventoryModule } from '../inventory/inventory.module'
 import { StockController } from './stock.controller'
 import { StockService } from './stock.service'
 

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { Yak } from 'src/herd/yak.entity'
+import { Yak } from '../herd/yak.entity'
 import { InventoryService } from './inventory.service'
 
 const initHerd = [

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { Yak } from 'src/herd/yak.entity'
-import { Stock } from 'src/stock/stock.entity'
+import { Yak } from '../herd/yak.entity'
+import { Stock } from '../stock/stock.entity'
 
 @Injectable()
 export class InventoryService {
