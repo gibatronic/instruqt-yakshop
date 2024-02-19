@@ -6,9 +6,7 @@ import { Config } from './config.entity'
 
 type Data = {
     herd: {
-        // fast-xml-parser returns a single object when
-        // there's only one child instead of a list
-        labyak: Yak | Yak[]
+        labyak: Yak[]
     }
 }
 
@@ -29,19 +27,18 @@ export async function loader(): Promise<Config> {
     const parser = new XMLParser({
         attributeNamePrefix: '',
         ignoreAttributes: false,
+        isArray: (_, jPath) => jPath === 'herd.labyak',
         parseAttributeValue: true,
     })
 
     const data = parser.parse(content, true)
 
     if (!isDataValid(data)) {
-        throw new Error('invalid data')
+        throw new Error('invalid config')
     }
 
     return {
-        herd: Array.isArray(data.herd.labyak)
-            ? data.herd.labyak.map(normalizeYak)
-            : [normalizeYak(data.herd.labyak)],
+        herd: data.herd.labyak.map(normalizeYak),
     }
 }
 
