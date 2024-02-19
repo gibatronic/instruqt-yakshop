@@ -48,7 +48,7 @@ describe('Herd', () => {
                 { name: 'Betty-3', age: 1000, sex: 'f', ageLastShaved: 987 },
             ],
         ],
-    ])('GET /yak-shop/herd/%s', async (elapsedDays, expectedHerd) => {
+    ])('GET /yak-shop/herd/%i', async (elapsedDays, expectedHerd) => {
         const response = await request(app.getHttpServer())
             .get(`/herd/${elapsedDays}`)
             .expect(200)

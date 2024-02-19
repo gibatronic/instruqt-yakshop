@@ -20,7 +20,7 @@ describe('Stock', () => {
         [13, { milk: 1104.48, skins: 3 }],
         [14, { milk: 1188.81, skins: 4 }],
         [75, { milk: 5671.75, skins: 14 }],
-    ])('GET /yak-shop/stock/%s', async (elapsedDays, expectedStock) => {
+    ])('GET /yak-shop/stock/%i', async (elapsedDays, expectedStock) => {
         const response = await request(app.getHttpServer())
             .get(`/stock/${elapsedDays}`)
             .expect(200)

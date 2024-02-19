@@ -8,5 +8,6 @@ import { StockService } from './stock.service'
     imports: [ConfigModule, InventoryModule],
     controllers: [StockController],
     providers: [StockService],
+    exports: [StockService],
 })
 export class StockModule {}

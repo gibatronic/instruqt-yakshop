@@ -8,7 +8,7 @@ export class HerdController {
     constructor(private readonly herdService: HerdService) {}
 
     @Get(':T')
-    @ApiOperation({ summary: 'herd after T days' })
+    @ApiOperation({ summary: 'Herd after T days' })
     @ApiResponse({
         status: 200,
         type: Herd,

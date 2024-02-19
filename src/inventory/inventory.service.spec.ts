@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { Yak } from '../herd/yak.entity'
+import { Inventory } from './inventory.entity'
 import { InventoryService } from './inventory.service'
 
 const initHerd = [
@@ -28,7 +29,11 @@ describe('InventoryService', () => {
         service = module.get(InventoryService)
     })
 
-    it.each([
+    it.each<{
+        elapsedDays: number
+        initHerd: Partial<Yak>[]
+        expectedIventory: Omit<Inventory, 'herd'> & { herd: Partial<Yak>[] }
+    }>([
         {
             elapsedDays: 1,
             initHerd: [

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { Yak } from '../herd/yak.entity'
 import { Stock } from '../stock/stock.entity'
+import { Inventory } from './inventory.entity'
 
 @Injectable()
 export class InventoryService {
-    calculate(herd: Yak[], elapsedDays: number) {
+    calculate(herd: Yak[], elapsedDays: number): Inventory {
         herd = structuredClone(herd)
 
         const stock: Stock = {

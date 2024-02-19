@@ -8,7 +8,7 @@ export class StockController {
     constructor(private readonly stockService: StockService) {}
 
     @Get(':T')
-    @ApiOperation({ summary: 'stock after T days' })
+    @ApiOperation({ summary: 'Stock after T days' })
     @ApiResponse({
         status: 200,
         type: Stock,
