@@ -14,9 +14,10 @@ import {
     ApiResponse,
     PartialType,
 } from '@nestjs/swagger'
-import { Stock } from '../stock/stock.entity'
-import { CreateOrderDto } from './create-order.dto'
+import { plainToClass } from 'class-transformer'
+import { BoughtViewDto } from './bought-view.dto'
 import { OrderService } from './order.service'
+import { PlaceOrderDto } from './place-order.dto'
 
 @Controller('order')
 export class OrderController {
@@ -26,43 +27,38 @@ export class OrderController {
     @ApiOperation({ summary: 'Place an order on T day' })
     @ApiResponse({
         status: 201,
-        type: Stock,
-        description: 'Order in stock, all goods delivered',
+        type: BoughtViewDto,
+        description: 'Order in stock, all products delivered',
     })
     @ApiResponse({
         status: 206,
-        description: 'Order partially in stock, some goods delivered',
-        type: PartialType(Stock),
+        description: 'Order partially in stock, some products delivered',
+        type: PartialType(BoughtViewDto),
     })
     @ApiNotFoundResponse({
-        description: 'Order not in stock, no goods delivered',
+        description: 'Order not in stock, no products delivered',
     })
     order(
         @Param('T', new ParseIntPipe()) elapsedDays: number,
-        @Body() { order }: CreateOrderDto,
+        @Body() { order }: PlaceOrderDto,
     ) {
-        const stock = this.orderService.calculateStock(elapsedDays)
-        const hasEnoughMilk = stock.milk >= order.milk
-        const hasEnoughSkins = stock.skins >= order.skins
+        const bought = this.orderService.placeOrder(order, elapsedDays)
+        const status = this.orderService.getOrderStatus(order, bought)
+        const view = plainToClass(BoughtViewDto, bought)
 
-        if (hasEnoughMilk && hasEnoughSkins) {
-            return order
+        if (status === 'all') {
+            return view
         }
 
-        if (hasEnoughMilk) {
-            throw new HttpException(
-                { milk: order.milk },
-                HttpStatus.PARTIAL_CONTENT,
-            )
+        if (status === 'some') {
+            throw new HttpException(view, HttpStatus.PARTIAL_CONTENT)
         }
 
-        if (hasEnoughSkins) {
-            throw new HttpException(
-                { skins: order.skins },
-                HttpStatus.PARTIAL_CONTENT,
-            )
+        if (status === 'none') {
+            throw new NotFoundException({})
         }
 
-        throw new NotFoundException({})
+        const exhaustiveCheck: never = status
+        throw new Error(`unhandled order status: ${exhaustiveCheck}`)
     }
 }
