@@ -1,6 +1,14 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common'
+import {
+    ClassSerializerInterceptor,
+    Controller,
+    Get,
+    Param,
+    ParseIntPipe,
+    UseInterceptors,
+} from '@nestjs/common'
 import { ApiOperation, ApiResponse } from '@nestjs/swagger'
-import { Herd } from './herd.entity'
+import { plainToClass } from 'class-transformer'
+import { HerdViewDto } from './herd-view.dto'
 import { HerdService } from './herd.service'
 
 @Controller('herd')
@@ -8,16 +16,19 @@ export class HerdController {
     constructor(private readonly herdService: HerdService) {}
 
     @Get(':T')
-    @ApiOperation({ summary: 'Herd after T days' })
+    @ApiOperation({ summary: 'View herd after T days' })
     @ApiResponse({
         status: 200,
-        type: Herd,
+        type: HerdViewDto,
     })
+    @UseInterceptors(ClassSerializerInterceptor)
     view(
         @Param('T', new ParseIntPipe())
         elapsedDays: number,
-    ): Herd {
+    ): HerdViewDto {
         const herd = this.herdService.calculateHerd(elapsedDays)
-        return { herd }
+        const view = plainToClass(HerdViewDto, { herd })
+
+        return view
     }
 }
