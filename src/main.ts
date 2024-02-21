@@ -30,7 +30,7 @@ function setupSwagger(
 ) {
     const swaggerConfig = new DocumentBuilder()
         .setTitle(title)
-        .setExternalDoc('OpenAPI JSON', `${routePrefix}-json`)
+        .setExternalDoc('OpenAPI JSON', `/${routePrefix}-json`)
         .build()
 
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
