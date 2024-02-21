@@ -9,7 +9,11 @@ async function bootstrap() {
     app.disable('x-powered-by')
     app.setGlobalPrefix('yak-shop')
 
-    const swaggerConfig = new DocumentBuilder().setTitle('YakShop').build()
+    const swaggerConfig = new DocumentBuilder()
+        .setTitle('YakShop')
+        .setExternalDoc('OpenAPI JSON', 'yak-shop-json')
+        .build()
+
     const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
 
     SwaggerModule.setup('yak-shop', app, swaggerDocument, {
