@@ -38,14 +38,9 @@ export async function loader(): Promise<Config> {
     }
 
     return {
-        herd: data.herd.labyak.map(normalizeYak),
-    }
-}
-
-function normalizeYak(yak: Yak): Yak {
-    return {
-        ...yak,
-        age: yak.age * 100,
-        ageLastShaved: 0,
+        herd: data.herd.labyak.map((yak: Yak) => ({
+            ...yak,
+            ageLastShaved: 0,
+        })),
     }
 }

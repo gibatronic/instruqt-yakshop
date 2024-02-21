@@ -3,22 +3,22 @@ import { Yak } from '../herd/yak.entity'
 import { Inventory } from './inventory.entity'
 import { InventoryService } from './inventory.service'
 
-const initHerd = [
-    {
-        age: 400,
-        ageLastShaved: 0,
-    },
-    {
-        age: 800,
-        ageLastShaved: 0,
-    },
-    {
-        age: 950,
-        ageLastShaved: 0,
-    },
-]
-
 describe('InventoryService', () => {
+    const initHerd = [
+        {
+            age: 4,
+            ageLastShaved: 0,
+        },
+        {
+            age: 8,
+            ageLastShaved: 0,
+        },
+        {
+            age: 9.5,
+            ageLastShaved: 0,
+        },
+    ]
+
     let service: InventoryService
 
     beforeEach(async () => {
@@ -49,7 +49,7 @@ describe('InventoryService', () => {
                 },
                 herd: [
                     {
-                        age: 1,
+                        age: 0.01,
                         ageLastShaved: 0,
                     },
                 ],
@@ -59,7 +59,7 @@ describe('InventoryService', () => {
             elapsedDays: 5,
             initHerd: [
                 {
-                    age: 1000,
+                    age: 10,
                     ageLastShaved: 0,
                 },
             ],
@@ -70,7 +70,7 @@ describe('InventoryService', () => {
                 },
                 herd: [
                     {
-                        age: 1000,
+                        age: 10,
                         ageLastShaved: 0,
                     },
                 ],
@@ -91,8 +91,8 @@ describe('InventoryService', () => {
                 },
                 herd: [
                     {
-                        age: 100,
-                        ageLastShaved: 100,
+                        age: expect.closeTo(1),
+                        ageLastShaved: expect.closeTo(1),
                     },
                 ],
             },
@@ -102,21 +102,21 @@ describe('InventoryService', () => {
             initHerd,
             expectedIventory: {
                 stock: {
-                    milk: 1104.48,
+                    milk: expect.closeTo(1104.48),
                     skins: 3,
                 },
                 herd: [
                     {
-                        age: 413,
-                        ageLastShaved: 401,
+                        age: expect.closeTo(4.13),
+                        ageLastShaved: expect.closeTo(4.01),
                     },
                     {
-                        age: 813,
-                        ageLastShaved: 801,
+                        age: expect.closeTo(8.13),
+                        ageLastShaved: expect.closeTo(8.01),
                     },
                     {
-                        age: 963,
-                        ageLastShaved: 951,
+                        age: expect.closeTo(9.63),
+                        ageLastShaved: expect.closeTo(9.51),
                     },
                 ],
             },
@@ -126,21 +126,21 @@ describe('InventoryService', () => {
             initHerd,
             expectedIventory: {
                 stock: {
-                    milk: 1188.81,
+                    milk: expect.closeTo(1188.81),
                     skins: 4,
                 },
                 herd: [
                     {
-                        age: 414,
-                        ageLastShaved: 414,
+                        age: expect.closeTo(4.14),
+                        ageLastShaved: expect.closeTo(4.14),
                     },
                     {
-                        age: 814,
-                        ageLastShaved: 801,
+                        age: expect.closeTo(8.14),
+                        ageLastShaved: expect.closeTo(8.01),
                     },
                     {
-                        age: 964,
-                        ageLastShaved: 951,
+                        age: expect.closeTo(9.64),
+                        ageLastShaved: expect.closeTo(9.51),
                     },
                 ],
             },
@@ -150,21 +150,21 @@ describe('InventoryService', () => {
             initHerd,
             expectedIventory: {
                 stock: {
-                    milk: 5671.75,
+                    milk: expect.closeTo(5671.75),
                     skins: 14,
                 },
                 herd: [
                     {
-                        age: 475,
-                        ageLastShaved: 466,
+                        age: expect.closeTo(4.75),
+                        ageLastShaved: expect.closeTo(4.66),
                     },
                     {
-                        age: 875,
-                        ageLastShaved: 869,
+                        age: expect.closeTo(8.75),
+                        ageLastShaved: expect.closeTo(8.69),
                     },
                     {
-                        age: 1000,
-                        ageLastShaved: 987,
+                        age: expect.closeTo(10),
+                        ageLastShaved: expect.closeTo(9.87),
                     },
                 ],
             },
@@ -172,14 +172,8 @@ describe('InventoryService', () => {
     ])(
         'should calculate the iventory when elapsed days is $elapsedDays',
         ({ elapsedDays, initHerd, expectedIventory }) => {
-            const {
-                herd,
-                stock: { milk, skins },
-            } = service.calculate(initHerd as Yak[], elapsedDays)
-
-            expect(herd).toEqual(expectedIventory.herd)
-            expect(milk).toBeCloseTo(expectedIventory.stock.milk)
-            expect(skins).toBe(expectedIventory.stock.skins)
+            const inventory = service.calculate(initHerd as Yak[], elapsedDays)
+            expect(inventory).toEqual(expectedIventory)
         },
     )
 })

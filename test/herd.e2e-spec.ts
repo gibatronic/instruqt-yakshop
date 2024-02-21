@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import * as request from 'supertest'
 import { AppModule } from '../src/app.module'
+import { Yak } from '../src/herd/yak.entity'
 
 describe('Herd', () => {
     let app: INestApplication
@@ -15,43 +16,104 @@ describe('Herd', () => {
         await app.init()
     })
 
-    it.each([
+    it.each<[number, Yak[]]>([
         [
             1,
             [
-                { name: 'Betty-1', age: 401, sex: 'f', ageLastShaved: 401 },
-                { name: 'Betty-2', age: 801, sex: 'f', ageLastShaved: 801 },
-                { name: 'Betty-3', age: 951, sex: 'f', ageLastShaved: 951 },
+                {
+                    name: 'Betty-1',
+                    age: expect.closeTo(4.01),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(4.01),
+                },
+                {
+                    name: 'Betty-2',
+                    age: expect.closeTo(8.01),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(8.01),
+                },
+                {
+                    name: 'Betty-3',
+                    age: expect.closeTo(9.51),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(9.51),
+                },
             ],
         ],
         [
             13,
             [
-                { name: 'Betty-1', age: 413, sex: 'f', ageLastShaved: 401 },
-                { name: 'Betty-2', age: 813, sex: 'f', ageLastShaved: 801 },
-                { name: 'Betty-3', age: 963, sex: 'f', ageLastShaved: 951 },
+                {
+                    name: 'Betty-1',
+                    age: expect.closeTo(4.13),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(4.01),
+                },
+                {
+                    name: 'Betty-2',
+                    age: expect.closeTo(8.13),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(8.01),
+                },
+                {
+                    name: 'Betty-3',
+                    age: expect.closeTo(9.63),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(9.51),
+                },
             ],
         ],
         [
             14,
             [
-                { name: 'Betty-1', age: 414, sex: 'f', ageLastShaved: 414 },
-                { name: 'Betty-2', age: 814, sex: 'f', ageLastShaved: 801 },
-                { name: 'Betty-3', age: 964, sex: 'f', ageLastShaved: 951 },
+                {
+                    name: 'Betty-1',
+                    age: expect.closeTo(4.14),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(4.14),
+                },
+                {
+                    name: 'Betty-2',
+                    age: expect.closeTo(8.14),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(8.01),
+                },
+                {
+                    name: 'Betty-3',
+                    age: expect.closeTo(9.64),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(9.51),
+                },
             ],
         ],
         [
             75,
             [
-                { name: 'Betty-1', age: 475, sex: 'f', ageLastShaved: 466 },
-                { name: 'Betty-2', age: 875, sex: 'f', ageLastShaved: 869 },
-                { name: 'Betty-3', age: 1000, sex: 'f', ageLastShaved: 987 },
+                {
+                    name: 'Betty-1',
+                    age: expect.closeTo(4.75),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(4.66),
+                },
+                {
+                    name: 'Betty-2',
+                    age: expect.closeTo(8.75),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(8.69),
+                },
+                {
+                    name: 'Betty-3',
+                    age: expect.closeTo(10),
+                    sex: 'f',
+                    ageLastShaved: expect.closeTo(9.87),
+                },
             ],
         ],
     ])('GET /yak-shop/herd/%i', async (elapsedDays, expectedHerd) => {
         const response = await request(app.getHttpServer())
             .get(`/herd/${elapsedDays}`)
             .expect(200)
-            .expect({ herd: expectedHerd })
+
+        expect(response.body).toEqual({ herd: expectedHerd })
     })
 })
