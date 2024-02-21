@@ -1,6 +1,5 @@
 import { XMLParser } from 'fast-xml-parser'
 import { readFile } from 'fs/promises'
-import { join } from 'path'
 import type { Yak } from '../herd/yak.interface'
 import type { Config } from './config.interface'
 
@@ -21,26 +20,28 @@ function isDataValid(data: unknown): data is Data {
         : false
 }
 
-export async function loader(): Promise<Config> {
-    const content = await readFile(join(__dirname, 'herd.xml'), 'utf-8')
+export function loader(initHerdFile: string) {
+    return async function (): Promise<Config> {
+        const content = await readFile(initHerdFile, 'utf-8')
 
-    const parser = new XMLParser({
-        attributeNamePrefix: '',
-        ignoreAttributes: false,
-        isArray: (_, jPath) => jPath === 'herd.labyak',
-        parseAttributeValue: true,
-    })
+        const parser = new XMLParser({
+            attributeNamePrefix: '',
+            ignoreAttributes: false,
+            isArray: (_, jPath) => jPath === 'herd.labyak',
+            parseAttributeValue: true,
+        })
 
-    const data = parser.parse(content, true)
+        const data = parser.parse(content, true)
 
-    if (!isDataValid(data)) {
-        throw new Error('invalid config')
-    }
+        if (!isDataValid(data)) {
+            throw new Error('invalid config')
+        }
 
-    return {
-        herd: data.herd.labyak.map((yak: Yak) => ({
-            ...yak,
-            ageLastShaved: 0,
-        })),
+        return {
+            herd: data.herd.labyak.map((yak: Yak) => ({
+                ...yak,
+                ageLastShaved: 0,
+            })),
+        }
     }
 }
