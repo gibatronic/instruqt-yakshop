@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { Config } from '../config/config.entity'
+import { Config } from '../config/config.interface'
 import { InventoryService } from '../inventory/inventory.service'
-import { OrderProducts } from './order-products.interface'
+import type { OrderProducts } from './order-products.interface'
 
 @Injectable()
 export class OrderService {

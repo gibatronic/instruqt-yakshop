@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { Yak } from '../herd/yak.entity'
-import { Stock } from '../stock/stock.entity'
-import { Inventory } from './inventory.entity'
+import { toFixed } from '../common/to-fixed-transformer'
+import type { Yak } from '../herd/yak.interface'
+import type { Stock } from '../stock/stock.interface'
+import { Inventory } from './inventory.interface'
 
 @Injectable()
 export class InventoryService {
@@ -10,9 +11,6 @@ export class InventoryService {
             milk: 0,
             skins: 0,
         }
-
-        const toFixed = (number: number, digits: number = 2) =>
-            parseFloat(number.toFixed(digits))
 
         herd = structuredClone(herd)
 

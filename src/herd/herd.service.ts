@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { Config } from '../config/config.entity'
+import { Config } from '../config/config.interface'
 import { InventoryService } from '../inventory/inventory.service'
 
 @Injectable()

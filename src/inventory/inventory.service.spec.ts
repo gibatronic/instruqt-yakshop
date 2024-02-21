@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { Yak } from '../herd/yak.entity'
-import { Inventory } from './inventory.entity'
+import type { Yak } from '../herd/yak.interface'
+import type { Inventory } from './inventory.interface'
 import { InventoryService } from './inventory.service'
 
 describe('InventoryService', () => {

@@ -1,19 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import {
-    Exclude,
-    Expose,
-    Transform,
-    TransformFnParams,
-    Type,
-} from 'class-transformer'
-
-const toFixed = (number: number, digits: number) =>
-    parseFloat(number.toFixed(digits))
-
-const toFixedTransformer =
-    (digits: number) =>
-    ({ value }: TransformFnParams) =>
-        toFixed(value, digits)
+import { Exclude, Expose, Transform, Type } from 'class-transformer'
+import { toFixedTransformer } from '../common/to-fixed-transformer'
 
 export class YakViewDto {
     @ApiProperty({ example: 'Betty' })

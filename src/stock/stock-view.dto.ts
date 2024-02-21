@@ -1,13 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Transform, TransformFnParams } from 'class-transformer'
-
-const toFixed = (number: number, digits: number) =>
-    parseFloat(number.toFixed(digits))
-
-const toFixedTransformer =
-    (digits: number) =>
-    ({ value }: TransformFnParams) =>
-        toFixed(value, digits)
+import { Transform } from 'class-transformer'
+import { toFixedTransformer } from '../common/to-fixed-transformer'
 
 export class StockViewDto {
     @ApiProperty({ example: 123.45 })

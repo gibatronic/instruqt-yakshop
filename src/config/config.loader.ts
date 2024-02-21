@@ -1,8 +1,8 @@
 import { XMLParser } from 'fast-xml-parser'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
-import { Yak } from '../herd/yak.entity'
-import { Config } from './config.entity'
+import type { Yak } from '../herd/yak.interface'
+import type { Config } from './config.interface'
 
 type Data = {
     herd: {

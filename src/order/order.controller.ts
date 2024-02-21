@@ -8,12 +8,7 @@ import {
     ParseIntPipe,
     Post,
 } from '@nestjs/common'
-import {
-    ApiNotFoundResponse,
-    ApiOperation,
-    ApiResponse,
-    PartialType,
-} from '@nestjs/swagger'
+import { ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { plainToClass } from 'class-transformer'
 import { BoughtViewDto } from './bought-view.dto'
 import { OrderService } from './order.service'
@@ -32,8 +27,8 @@ export class OrderController {
     })
     @ApiResponse({
         status: 206,
+        type: BoughtViewDto,
         description: 'Order partially in stock, some products delivered',
-        type: PartialType(BoughtViewDto),
     })
     @ApiNotFoundResponse({
         description: 'Order not in stock, no products delivered',

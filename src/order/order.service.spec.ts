@@ -4,8 +4,8 @@ jest.mock('../inventory/inventory.service')
 import { ConfigService } from '@nestjs/config'
 import { Test, TestingModule } from '@nestjs/testing'
 import { InventoryService } from '../inventory/inventory.service'
-import { Stock } from '../stock/stock.entity'
-import { OrderProducts } from './order-products.interface'
+import { Stock } from '../stock/stock.interface'
+import type { OrderProducts } from './order-products.interface'
 import { OrderService } from './order.service'
 
 describe('OrderService', () => {
